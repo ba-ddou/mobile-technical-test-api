@@ -11,7 +11,7 @@ This is a mock websocket server that continously increments and broadcasts a cou
 - Supports multiple conenctions
 - Client terminals must register with a unique client Id to start receiving the counter value
 - Counter values are persisted when the socket is disconnected without an explicit uregister event
-- After an unexpected disconnection, client terminals can always resume the counter by registering with the same client Id
+- After an unexpected disconnection (socket disconnection without sending and explicit `unregister` event), client terminals can always re-establish the socket connection and resume the counter right where they left off by registering with the same client Id
 - Client terminals must unregister to stop receiving the counter value & reset the counter
 
 **Socket endpoint:** <a href="https://mobile-technical-test.herokuapp.com">https://mobile-technical-test.herokuapp.com</a>

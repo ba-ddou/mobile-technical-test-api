@@ -6,13 +6,14 @@ This is a mock websocket server that continously increments and broadcasts a cou
 
 **Tech specs:**
 
-- Built with socket.io
-- The counter is incremented & broadcasted in 1s intervals
-- Supports multiple conenctions
-- Client terminals must register with a unique client Id to start receiving the counter value
+- The API uses socket.io to handle web sockets
+- The API supports multiple conenctions
+- After a socket connection is established, client terminals must register with a unique client Id to start receiving data
+- The data received through the socket is a simple counter value that starts at 0 when a client registers with and Id and is automatically incremented every second and sent via the `message` socket event
+- Client terminals must unregister (send and `unregister` event) to stop receiving the counter value & reset the counter
 - Counter values are persisted when the socket is disconnected without an explicit uregister event
 - After an unexpected disconnection (socket disconnection without sending an explicit `unregister` event), client terminals can always re-establish the socket connection and resume the counter right where they left off by registering with the same client Id
-- Client terminals must unregister to stop receiving the counter value & reset the counter
+  s
 
 **Socket endpoint:** <a href="https://mobile-technical-test.herokuapp.com">https://mobile-technical-test.herokuapp.com</a>
 
@@ -45,20 +46,25 @@ socket.emit(
 );
 ```
 
-# **Technical test requirements**
+# **Technical test**
 
 ## **Topic**
 
-Building an android app with a web socket based real-time communications module that runs in the background.
+Building an android app with a robust web socket based real-time communications module.
 
 > You can build the app using either react-native or a fully native android platform (Java or Kotlin).
+
+## **Context**
+
+In a real world on demand food delivery platform, one of the important features is the real-time driver GPS coordinate tracking. This is acheived by continuously streaming the driver's coordinates from the driver app to the server and then streaming them to the customer app using web sockets. For optimal UX, the socket connection must stay open and the driver's coordinates must be kept up to date at all times even when the app is running in the background.
+
+The Mock API documented above is a dumbed down version of the real-time driver coordinates stream functionality. And it will allow you to emulate a simplified version of the customer app's driver tracking feature.
 
 ## **Requirements**
 
 - Users must be able to turn the socket connection ON or OFF from a switch in the UI.
-- Display the counter value (received through the socket ) in the app's UI while the socket connection is open.
-- Display the counter value (received through the socket ) in a sticky notification at all times while the socket connection is open.
-- The socket connection must run in the background i.e persist and keep the counter value up to date even while the app is closed.
+- Data received throught the socket connection must be displayed in the app's UI.
+- Data received throught the socket connection must be displayed to the user at all times, even when the app is closed or in the background.
 
 ### **Evaluation criteria**
 
@@ -73,7 +79,7 @@ Building an android app with a web socket based real-time communications module 
 
 - Good UI design
 - Using react-native
-- Streamlining the applicatin hand-off / installation process
+- Streamlining the application hand-off / installation process
 
 ## **Notes**
 
